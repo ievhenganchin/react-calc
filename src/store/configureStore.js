@@ -1,9 +1,11 @@
 import { applyMiddleware, compose, createStore } from "redux";
+import { api } from "../middlewares/api";
+import { logger } from "../middlewares/logger";
 
 import rootReducer from "./reducers";
 
 export default function configureStore(preloadedState) {
-  const middlewares = [];
+  const middlewares = [logger, api];
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
   const enhancers = [middlewareEnhancer];

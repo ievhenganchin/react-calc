@@ -4,11 +4,17 @@ import {
   EQUAL_CLICK,
   CLEAR_CLICK
 } from "../components/Command/actions";
+import {
+  LOG_DATA_REQUEST,
+  LOG_DATA_ERROR,
+  LOG_DATA_RESPONSE
+} from "../actions";
 
 const initialState = {
   first: "",
   second: "",
-  operation: ""
+  operation: "",
+  isLoading: false
 };
 
 const formatResult = state => ({
@@ -41,6 +47,13 @@ export default (state = initialState, action) => {
     }
     case CLEAR_CLICK: {
       return initialState;
+    }
+    case LOG_DATA_REQUEST: {
+      return { ...state, isLoading: true };
+    }
+    case LOG_DATA_ERROR:
+    case LOG_DATA_RESPONSE: {
+      return { ...state, isLoading: false };
     }
     default:
       return state;

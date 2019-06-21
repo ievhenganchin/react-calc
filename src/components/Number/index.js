@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 
 import { Button } from "../Button";
 import { handleClick } from "./actions";
+import { logData } from "../../actions";
 
 class Number extends Component {
   onClick = () => {
-    const { text, handleClick } = this.props;
+    const { text, handleClick, log } = this.props;
     handleClick(text);
+    log(text);
   };
 
   render() {
@@ -17,7 +19,8 @@ class Number extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  handleClick: data => dispatch(handleClick(data))
+  handleClick: data => dispatch(handleClick(data)),
+  log: data => dispatch(logData(data))
 });
 
 /* HOC */

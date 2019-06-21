@@ -2,6 +2,9 @@ export const CALL_API = "CALL_API";
 
 // api(store)(next)(action)
 
+// Thunks
+// Sagas
+// Callbacks
 export const api = store => next => action => {
   if (action.type !== CALL_API) {
     next(action);
