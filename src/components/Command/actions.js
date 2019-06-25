@@ -1,22 +1,14 @@
-export const BUTTON_COMMAND_CLICK = "BUTTON_COMMAND_CLICK";
-export const EQUAL_CLICK = "EQUAL_CLICK";
-export const CLEAR_CLICK = "CLEAR_CLICK";
+import { CALL_API } from "../../middlewares/api";
 
-const handleCommandClick = data => ({
-  type: BUTTON_COMMAND_CLICK,
-  data
-});
+export const GET_USERS_REQUEST = 'GET_USERS_REQUEST';
+export const GET_USERS_RESPONSE = 'GET_USERS_RESPONSE';
+export const GET_USERS_ERROR = 'GET_USERS_ERROR';
 
-const handleEqualClick = () => ({
-  type: EQUAL_CLICK
-});
+export const handleCommandClick = (data) => dispatch => {
+  dispatch({
+    type: CALL_API,
+    payload: Object.assign({}, data, { types: [GET_USERS_REQUEST, GET_USERS_RESPONSE, GET_USERS_ERROR] })
+  }).then(response => {
 
-const handleClearClick = () => ({
-  type: CLEAR_CLICK
-});
-
-export default {
-  command: handleCommandClick,
-  equal: handleEqualClick,
-  clear: handleClearClick
-};
+  });
+}

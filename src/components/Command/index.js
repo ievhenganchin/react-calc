@@ -1,23 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import {api} from '../../middlewares/api';
 import { Button } from "../Button";
-import actions from "./actions";
+// import actions, {CALL_API} from "./actions";
+import {handleCommandClick} from "./actions";
 
 class Command extends Component {
   onClick = () => {
-    const { text, type, handleClick } = this.props;
-    handleClick(text, type);
+    const {type, handleClick, url, params, method } = this.props;
+    handleClick({ url, params, method}, type);
   };
 
   render() {
-    const { text } = this.props;
-    return <Button onClick={this.onClick} text={text} />;
+    const { text ,url} = this.props;
+    return <Button onClick={this.onClick} url={url} text={text} />;
   }
 }
 
+
 const mapDispatchToProps = dispatch => ({
-  handleClick: (data, type) => dispatch(actions[type](data))
+  handleClick: (data, type) => dispatch(handleCommandClick(data))
 });
 
 /* HOC */

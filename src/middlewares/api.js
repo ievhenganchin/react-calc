@@ -1,29 +1,20 @@
 export const CALL_API = "CALL_API";
 
-// api(store)(next)(action)
-
-// Thunks
-// Sagas
-// Callbacks
-export const api = store => next => action => {
+export const api = ({dispatch}) => next => action => {
   if (action.type !== CALL_API) {
     next(action);
-  }
 
+    return;
+  }
   const [REQUEST, RESPONSE, ERROR] = action.payload.types;
 
   const initParams = {
     method: action.payload.method,
     body: action.payload.params,
-    headers: {
-      // auth
-      // cors
-      // request / response type
-      // etc
-    }
+    headers: {}
   };
 
-  store.dispatch({ type: REQUEST }); // +params
+  dispatch({ type: REQUEST });
 
   return new Promise((resolve, reject) => {
     fetch(action.payload.url, initParams)
@@ -33,14 +24,16 @@ export const api = store => next => action => {
 
         if (response.error) {
           // { error: true, message: '....' }
-          store.dispatch({ type: ERROR, payload: response });
+          dispatch({ type: ERROR, payload: response });
           reject(response);
 
           return;
         }
 
-        store.dispatch({ type: RESPONSE, payload: response });
-        resolve(response);
+        response.json().then(payload => {
+          dispatch({ type: RESPONSE, payload });
+          resolve(payload);
+        });
       })
       .catch(error => {
         // handle errors

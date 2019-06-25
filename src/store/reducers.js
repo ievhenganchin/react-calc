@@ -1,20 +1,10 @@
-import { BUTTON_CLICK } from "../components/Number/actions";
-import {
-  BUTTON_COMMAND_CLICK,
-  EQUAL_CLICK,
-  CLEAR_CLICK
-} from "../components/Command/actions";
-import {
-  LOG_DATA_REQUEST,
-  LOG_DATA_ERROR,
-  LOG_DATA_RESPONSE
-} from "../actions";
+import { GET_USERS_REQUEST, GET_USERS_RESPONSE } from "../components/Command/actions";
+import { CALL_API } from "../middlewares/api";
 
 const initialState = {
   first: "",
   second: "",
-  operation: "",
-  isLoading: false
+  operation: ""
 };
 
 const formatResult = state => ({
@@ -24,36 +14,18 @@ const formatResult = state => ({
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case BUTTON_CLICK: {
-      const result = Object.assign({}, state);
-      if (!state.operation) {
-        result.first += action.data;
-        return formatResult(result);
-      }
-
-      result.second += action.data;
-      return formatResult(result);
+    case CALL_API: {
+      console.log('Middleware was triggered');
+      return state;
     }
-    case BUTTON_COMMAND_CLICK: {
-      const result = Object.assign({}, state, { operation: action.data });
-      return formatResult(result);
+    case GET_USERS_REQUEST: {
+      console.log('Request started');
+      return state;
     }
-    case EQUAL_CLICK: {
-      return Object.assign(
-        {},
-        { result: eval(state.result) },
-        { ...initialState }
-      );
-    }
-    case CLEAR_CLICK: {
-      return initialState;
-    }
-    case LOG_DATA_REQUEST: {
-      return { ...state, isLoading: true };
-    }
-    case LOG_DATA_ERROR:
-    case LOG_DATA_RESPONSE: {
-      return { ...state, isLoading: false };
+    case GET_USERS_RESPONSE: {
+      console.log('Request ended');
+      console.log('Result: ', action.payload);
+      return state;
     }
     default:
       return state;
