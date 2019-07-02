@@ -6,6 +6,11 @@ export const api = ({dispatch}) => next => action => {
 
     return;
   }
+
+  if (!action.payload || !(action.payload.types instanceof Array) || action.payload.types.length !== 3) {
+    return;
+  }
+
   const [REQUEST, RESPONSE, ERROR] = action.payload.types;
 
   const initParams = {
@@ -41,29 +46,3 @@ export const api = ({dispatch}) => next => action => {
       });
   });
 };
-
-/*
-  dispatch({ type: CALL_API, payload: {
-    url: '/users',
-    method: 'GET',
-    params: null,
-    type: ['GET_USERS_REQUEST', 'GET_USERS_RESPONSE', 'GET_USERS_ERROR']
-  }}).then((response => {// some additional logic}))
-*/
-
-/* apiHelper('/users', null, 'GET', 
-  ['GET_USERS_REQUEST', 'GET_USERS_RESPONSE', 'GET_USERS_ERROR'])
-  .then(response => { // some additional logic })
-  .then(response => { // refresh data })
-  .then(response => { // log info })
-*/
-
-const add = first => {
-  return second => {
-    this.log("Added");
-    return first + second;
-  };
-};
-
-// add(5, 10)
-// add(5)(10)
